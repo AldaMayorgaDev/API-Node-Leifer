@@ -38,12 +38,13 @@ const TracksSchema= mongoose.Schema(
             }
         },
         mediaId:{
-            type: mongoose.Types.ObjectId,
+            //type: mongoose.Types.ObjectId
+            type: String
         },
     },
     {
         timestamps:true,
-        versionKey: true,
+        versionKey: false
     }
 );
 
