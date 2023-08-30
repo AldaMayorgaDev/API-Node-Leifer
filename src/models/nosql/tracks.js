@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const TracksSchema= mongoose.Schema(
+const TracksSchema= new mongoose.Schema(
 
     {
         name:{
@@ -37,10 +37,9 @@ const TracksSchema= mongoose.Schema(
                 type: Number,
             }
         },
-        mediaId:{
-            //type: mongoose.Types.ObjectId
-            type: String
-        },
+        mediaId: {
+            type: mongoose.Types.ObjectId,
+        }
     },
     {
         timestamps:true,

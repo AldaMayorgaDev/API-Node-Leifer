@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 
-const StorageSchema = mongoose.Schema(
+const StorageSchema = new mongoose.Schema(
 
     {
         url:{
