@@ -86,7 +86,8 @@ const deleteItem = async (req, res) => {
     try {
         req = matchedData(req);
         const { id } = req;
-        const data = await tracksModel.deleteOne({_id:id});
+        //const data = await tracksModel.deleteOne({_id:id}); //Borrado fisico /hard--> si elimnina permanente el registo
+        const data = await tracksModel.delete({_id:id}); //Delete soft /borrado suave o logico--> Elimina el registro  sin borrarlo de la BD solo lo oculta
         res.send({
             data: data
         });

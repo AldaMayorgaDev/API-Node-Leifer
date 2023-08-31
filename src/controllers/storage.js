@@ -15,14 +15,12 @@ const getItems= async(req, res)=>{
 
 
 const createItem = async(req, res)=>{
-    const {body, file}= req;
+    console.log('asdadasdasdasdasdasda:',req.body)
+    const {file}= req;
     console.log("🚀 ~ createItem ~ file:", file)
-    console.log("🚀 ~ createItem ~ body:", body);
-    
-
-    const {filename} = file;
+    const{filename} = file;
     const fileData ={
-        fileName: filename,
+        fileName: file.filename,
         url: `${PUBLIC_URL}/${filename}`
     }
 

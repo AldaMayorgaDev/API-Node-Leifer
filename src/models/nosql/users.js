@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const mongooseDelete = require('mongoose-delete');
 
 
 //Schema es la estructura
@@ -29,6 +30,8 @@ const UserSchema = new mongoose.Schema(
         versionKey: false
     }
 );
+
+UserSchema.plugin(mongooseDelete, {overrideMethods: 'all'}); //añadiendo plugin del paquete mongoose-delete
 
 /* module.exports = mongoose.model("nombreDeLaTablaSQL/NombreColeccionNOSQL", UserSchema) */
 module.exports = mongoose.model("users", UserSchema)

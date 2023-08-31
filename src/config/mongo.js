@@ -18,7 +18,7 @@ const dbConnect = async () => {
     const URL = `mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`
 
 
-        await mongoose.connect( DB_URI_PROV, {
+        await mongoose.connect( URL, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         })
