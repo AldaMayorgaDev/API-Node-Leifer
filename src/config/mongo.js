@@ -1,19 +1,24 @@
 const mongoose = require('mongoose');
 
 const dbConnect = async () => {
-    const DB_URI = process.env.DB_URI;
-    console.log("🚀 ~ dbConnect ~ DB_URI:", DB_URI)
+
 
     const {
         DB_USER, 
         DB_PASSWORD, 
         DB_HOST, 
-        DB_NAME
+        DB_NAME,
+        DB_URI_PROV,
+        DB_URI
     } = process.env;
+
+    console.log("🚀 ~ dbConnect ~ DB_URI_PROV:", typeof DB_URI_PROV);
+    console.log("🚀 ~ dbConnect ~ DB_URI:", DB_URI)
     
     const URL = `mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`
 
-        await mongoose.connect(URL, {
+
+        await mongoose.connect( DB_URI_PROV, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         })

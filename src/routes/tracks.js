@@ -1,20 +1,22 @@
 const express = require('express');
 const router = express.Router();
-const {getItems,getItem, createItem} = require('../controllers/tracks');
+const {getItems,getItem, updateItem, createItem, deleteItem} = require('../controllers/tracks');
 
 
 //validators
-const { validatorCreateItem } = require('../validators/tracks');
+const { validatorCreateItem, validatorGetItem } = require('../validators/tracks');
+
 
 //middlewares
-const customHeader = require('../middleware/customHeader');
 
 
 
 //Declarar rutas http://localhost/tracks con los metodos GET, POST, DELETE, PUT
 
 router.get("/", getItems);
-router.get("/:id", getItem);
-router.post("/", validatorCreateItem, customHeader, createItem);
+router.get("/:id",validatorGetItem, getItem);
+router.put("/:id",validatorGetItem,validatorCreateItem, updateItem);
+router.post("/", validatorCreateItem,createItem);
+router.delete("/:id",validatorGetItem, deleteItem);
 
 module.exports = router;

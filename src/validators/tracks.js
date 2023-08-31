@@ -28,6 +28,19 @@ const validatorCreateItem = [
 ];
 
 
+const validatorGetItem = [
+    check("id")
+        .exists()
+        .notEmpty()
+        .isMongoId(),
+
+    //devolver siempre una respuesta
+    (req, res, next) => {
+        return validateResults(req, res, next)
+    }
+];
+
 module.exports = {
     validatorCreateItem,
+    validatorGetItem
 };
