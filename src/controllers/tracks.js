@@ -82,7 +82,6 @@ const updateItem = async (req, res) => {
  * 
 */
 const deleteItem = async (req, res) => {
-
     try {
         req = matchedData(req);
         const { id } = req;
