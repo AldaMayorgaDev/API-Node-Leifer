@@ -13,9 +13,11 @@ const { handleHttpError } = require('../utils/handleError');
 */
 const getItems = async (req, res) => {
     try {
+        const user = req.user
         const data = await tracksModel.find({});
         res.send({
-            data: data
+            data: data,
+            user: user,
         });
     } catch (error) {
         handleHttpError(res, 'ERROR_GET_ITEMS', 403)
@@ -66,7 +68,7 @@ const createItem = async (req, res) => {
 const updateItem = async (req, res) => {
     try {
         const { id, ...body } = matchedData(req);
-        const data = await tracksModel.findByIdAndUpdate(id, body, {new:true});
+        const data = await tracksModel.findByIdAndUpdate(id, body, { new: true });
         const dataActualizada = data;
         res.send({
             data: dataActualizada
@@ -86,7 +88,7 @@ const deleteItem = async (req, res) => {
         req = matchedData(req);
         const { id } = req;
         //const data = await tracksModel.deleteOne({_id:id}); //Borrado fisico /hard--> si elimnina permanente el registo
-        const data = await tracksModel.delete({_id:id}); //Delete soft /borrado suave o logico--> Elimina el registro  sin borrarlo de la BD solo lo oculta
+        const data = await tracksModel.delete({ _id: id }); //Delete soft /borrado suave o logico--> Elimina el registro  sin borrarlo de la BD solo lo oculta
         res.send({
             data: data
         });

@@ -18,7 +18,8 @@ const UserSchema = new mongoose.Schema(
             unique: true
         },
         password:{
-            type: String
+            type: String,
+            select: false //No se muestra con la respuesta a la peticion
         },
         role:{
             type:["user", "admin"],
