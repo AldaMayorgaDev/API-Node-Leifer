@@ -7,22 +7,22 @@ const mongooseDelete = require('mongoose-delete');
 const UserSchema = new mongoose.Schema(
     {
         //strucutra del objeto
-        name:{
+        name: {
             type: String
         },
-        age:{
-            type:Number
+        age: {
+            type: Number
         },
-        email:{
-            type:String,
+        email: {
+            type: String,
             unique: true
         },
-        password:{
+        password: {
             type: String,
-            select: false //No se muestra con la respuesta a la peticion
+            //select: false //No se muestra con la respuesta a la peticion
         },
-        role:{
-            type:["user", "admin"],
+        role: {
+            type: ["user", "admin"],
             default: "user"
         }
     },
@@ -32,7 +32,9 @@ const UserSchema = new mongoose.Schema(
     }
 );
 
-UserSchema.plugin(mongooseDelete, {overrideMethods: 'all'}); //añadiendo plugin del paquete mongoose-delete
+
+
+UserSchema.plugin(mongooseDelete, { overrideMethods: 'all' }); //añadiendo plugin del paquete mongoose-delete
 
 /* module.exports = mongoose.model("nombreDeLaTablaSQL/NombreColeccionNOSQL", UserSchema) */
 module.exports = mongoose.model("users", UserSchema)

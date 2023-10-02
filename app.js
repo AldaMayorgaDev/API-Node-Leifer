@@ -3,9 +3,12 @@ const express = require('express');
 const cors = require('cors');
 
 const morganBody = require('morgan-body');
-const dbConnect = require('./src/config/mongo');
-const app = express();
 const { loggerStream } = require('./src/utils/monitoreo-slack/handleLooger')
+const dbConnectNoSQL = require('./src/config/mongo');
+const { dbConnectMysql } = require('./src/config/mysql')
+const app = express();
+const ENGINE_DB = process.env.ENGINE_DB;
+
 
 app.use(cors());
 app.use(express.json());
@@ -28,4 +31,5 @@ app.listen(port, () => {
     console.log(`Tu app esta lista por http://localhost:${port}`);
 });
 
-dbConnect();
+
+(ENGINE_DB === 'nosql') ? dbConnectNoSQL() : dbConnectMysql();

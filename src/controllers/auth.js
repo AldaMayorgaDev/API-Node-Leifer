@@ -11,7 +11,7 @@ const { encrypt, compare } = require('../utils/handlePassword');
 const { handleHttpError } = require('../utils/handleError')
 
 
-
+const ENGINE_DB = process.env.ENGINE_DB;
 const registerController = async (req, res) => {
         try {
 
@@ -43,9 +43,20 @@ const loginController = async (req, res) => {
 
         try {
                 req = matchedData(req);
-                const user = await usersModel.findOne({ email: req.email })
-                        .select('password name role email');
-                //console.log("🚀 ~ loginController ~ user:", user)
+
+                let user;
+                let tipoUser = '';
+
+                if (ENGINE_DB === 'nosql') {
+                        user = await usersModel.findOne({ email: req.email });
+                        tipoUser = 'nosql'
+                } else {
+                        user = await usersModel.findOne({ where: { email: req.email } });
+                        tipoUser = 'mysql';
+
+                }
+
+                console.log("🚀 ~ loginController ~ user:", tipoUser)
 
                 if (!user) {
                         handleHttpError(res, "ERROR_USER_NOT_EXISTS", 404);
@@ -70,6 +81,7 @@ const loginController = async (req, res) => {
                 }
                 res.send({ data })
 
+                console.log('todo Ok')
         } catch (e) {
                 console.log("🚀 ~ loginController ~ e:", e)
 

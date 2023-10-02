@@ -1,14 +1,14 @@
 const fs = require('fs');
-const {storageModel}= require('../models');
+const { storageModel } = require('../models');
 const { matchedData } = require("express-validator");
 const { handleHttpError } = require('../utils/handleError');
 
 
-const PUBLIC_URL= process.env.PUBLIC_URL;
+const PUBLIC_URL = process.env.PUBLIC_URL;
 const MEDIA_PATH = `${__dirname}/../storage`;
 
 
-const getItem= async(req, res)=>{
+const getItem = async (req, res) => {
     try {
         const { id } = matchedData(req);
         const data = await storageModel.findById(id);
@@ -22,7 +22,7 @@ const getItem= async(req, res)=>{
 };
 
 
-const getItems= async(req, res)=>{
+const getItems = async (req, res) => {
     try {
         const data = await storageModel.find({})
         res.send({
@@ -34,15 +34,17 @@ const getItems= async(req, res)=>{
 };
 
 
-const createItem = async(req, res)=>{
+const createItem = async (req, res) => {
     try {
-        const {file}= req;
-        const{filename} = file;
-        const fileData ={
+        const { file } = req;
+
+        const { filename } = file;
+        const fileData = {
             fileName: file.filename,
-            url: `${PUBLIC_URL}/${filename}`
-        }
+            url: `${PUBLIC_URL}/${filename}`,
+        };
         const data = await storageModel.create(fileData)
+        res.status(201)
         res.send({
             data
         });
@@ -51,7 +53,7 @@ const createItem = async(req, res)=>{
     }
 };
 
-const deleteItem= async(req, res)=>{
+const deleteItem = async (req, res) => {
     try {
         //Buscar si existe el archivo
         const { id } = matchedData(req);
@@ -59,19 +61,19 @@ const deleteItem= async(req, res)=>{
 
         //Eliimina definitavemente el registro en la BD
 
-        await storageModel.deleteOne({_id:id});
+        await storageModel.deleteOne({ _id: id });
 
         //obtener su nombre y extension y utilizarlo para generar la ruta absoluta
-        const {fileName}= dataFile;
+        const { fileName } = dataFile;
         const filePath = `${MEDIA_PATH}/${fileName}`;
 
         //Aqui se elimina el archivo de la carpeta storage.
         fs.unlinkSync(filePath);
 
         //Se crea el objeto que se enviara a respuesta (res)
-        const data ={
+        const data = {
             filePath,
-            deleted:1,
+            deleted: 1,
             message: 'Eliminado exitosamente'
         }
         res.send({

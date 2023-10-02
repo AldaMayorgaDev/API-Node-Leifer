@@ -9,7 +9,6 @@ const checkRol = (roles) => (req, res, next) => {
 
     try {
         const { user } = req;
-        console.log("🚀 ~ checkRol ~ user:", user)
 
         const rolesByUser = user.role;
 

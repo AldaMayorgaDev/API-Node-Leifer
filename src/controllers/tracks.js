@@ -2,7 +2,8 @@
  * El controlador va a ser la parte en la que se va a contener la lógica de la aplicación
  *  
  */
-
+const ENGINE_DB = process.env.ENGINE_DB;
+console.log("🚀 ~ ENGINE_DB:", ENGINE_DB)
 const { matchedData } = require('express-validator');
 const { tracksModel } = require('../models');
 const { handleHttpError } = require('../utils/handleError');
@@ -14,7 +15,7 @@ const { handleHttpError } = require('../utils/handleError');
 const getItems = async (req, res) => {
     try {
         const user = req.user
-        const data = await tracksModel.find({});
+        const data = await tracksModel.findAllData({});
         res.send({
             data: data,
             user: user,
@@ -33,12 +34,13 @@ const getItem = async (req, res) => {
     try {
         req = matchedData(req);
         const { id } = req;
-        const data = await tracksModel.findById(id);
+        const data = await tracksModel.findOneData(id);
         res.send({
             data: data
         });
 
     } catch (error) {
+        console.log(error)
         handleHttpError(res, 'ERROR_GET_ITEM', 404)
     }
 };
@@ -49,14 +51,49 @@ const getItem = async (req, res) => {
  * 
 */
 const createItem = async (req, res) => {
-    try {
-        const body = matchedData(req) //matchedData(req) limpia el req de manera que solo coincida con lo que se establecio en el validator, quita datos que puedan ser agregados en la req por error o malisia
-        const data = await tracksModel.create(body)
+    /* try {
+        const body = matchedData(req); //matchedData(req) limpia el req de manera que solo coincida con lo que se establecio en el validator, quita datos que puedan ser agregados en la req por error o malisia
+
+        const data = await tracksModel.create(body);
+        res.status(201);
         res.send({
             data: data
         })
     } catch (error) {
         handleHttpError(res, 'ERROR_CREATE_ITEM', 403)
+    } */
+
+
+    try {
+
+        const body = matchedData(req);
+
+        if (ENGINE_DB === 'nosql') {
+
+            const data = await tracksModel.create(body);
+            res.status(201);
+            res.send({ data });
+        } else {
+            const data = await tracksModel.create({
+                ...body,
+
+                artist_name: body.artist.name,
+                artist_nickname: body.artist.nickname,
+                artist_nationality: body.artist.nationality,
+                duration_start: body.duration.start,
+                duration_end: body.duration.end
+            });
+            console.log("🚀 ~ createItem ~ data:", data)
+            console.log("🚀 ~ createItem ~ body:", body)
+            res.status(201);
+
+            res.send({ data });
+        }
+
+    } catch (e) {
+
+        handleHttpError(res, 'ERROR_CREATE_ITEM', 403)
+
     }
 };
 

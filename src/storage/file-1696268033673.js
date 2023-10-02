@@ -4,10 +4,10 @@ const mongooseDelete = require('mongoose-delete');
 const StorageSchema = new mongoose.Schema(
 
     {
-        url: {
+        url:{
             type: String,
         },
-        fileName: {
+        fileName:{
             type: String,
 
         }
@@ -19,5 +19,5 @@ const StorageSchema = new mongoose.Schema(
     }
 );
 
-StorageSchema.plugin(mongooseDelete, { overrideMethods: 'all' });
+StorageSchema.plugin(mongooseDelete, {overrrideMethods: 'all'});
 module.exports = mongoose.model('storages', StorageSchema);
