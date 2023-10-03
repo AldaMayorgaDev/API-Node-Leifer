@@ -14,6 +14,8 @@ const User = sequelize.define(
         },
         email: {
             type: DataTypes.STRING,
+            allowNull: false,
+            unique: true,
         },
         password: {
             type: DataTypes.STRING,
@@ -26,5 +28,6 @@ const User = sequelize.define(
         timestamps: true,
     }
 );
-
+User.find = User.findAll;
+User.findById = User.findByPk;
 module.exports = User;
