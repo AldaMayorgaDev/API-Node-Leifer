@@ -1,8 +1,8 @@
 const { Sequelize } = require('sequelize');
-
+const NODE_ENV = process.env.NODE_ENV
 //Crear conexion
 
-const database = process.env.MYSQL_DATABASE;
+const database = (NODE_ENV === 'test') ? process.env.MYSQL_DATABASE_TEST : process.env.MYSQL_DATABASE;
 const username = process.env.MYSQL_USERNAME;
 const password = process.env.MYSQL_PASSWORD;
 const host = process.env.MYSQL_HOST;

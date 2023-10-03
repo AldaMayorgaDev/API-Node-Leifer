@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+const NODE_ENV = process.env.NODE_ENV
 const dbConnect = async () => {
 
 
@@ -9,7 +10,9 @@ const dbConnect = async () => {
         DB_HOST,
         DB_NAME,
         DB_URI_PROV,
-        DB_URI
+        DB_URI_PROV_TEST,
+        DB_URI,
+        DB_URI_TEST
     } = process.env;
 
     console.log("🚀 ~ dbConnect ~ DB_URI_PROV:", typeof DB_URI_PROV);
@@ -17,7 +20,7 @@ const dbConnect = async () => {
 
     const URL = `mongodb+srv://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`
 
-    const url = DB_URI_PROV;
+    const url = (NODE_ENV === 'test') ? DB_URI_PROV_TEST : DB_URI_PROV;
 
     await mongoose.connect(url, {
         useNewUrlParser: true,
