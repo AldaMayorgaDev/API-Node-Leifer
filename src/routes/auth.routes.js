@@ -6,7 +6,7 @@ const router = express.Router();
 const { validatorRegisterItem, validatorLogin } = require('../validators/auth');
 
 //Controllers
-const { loginController, registerController } = require('../controllers/auth');
+const { loginController, registerController } = require('../controllers/auth.controller');
 
 //Rutas y Metodos
 

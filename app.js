@@ -18,6 +18,7 @@ const { dbConnectMysql } = require('./src/config/mysql')
 
 const app = express();
 const ENGINE_DB = process.env.ENGINE_DB;
+const NODE_ENV = process.env.NODE_ENV || 'development';
 
 
 app.use(cors());
@@ -42,9 +43,14 @@ const port = process.env.PORT || 3000;
 app.use('/documentation', swaggerUI.serve, swaggerUI.setup(openApiConfiguration))
 app.use("/api", require("./src/routes"))
 
-app.listen(port, () => {
-    console.log(`Tu app esta lista por http://localhost:${port}`);
-});
+if (NODE_ENV !== 'test') {
+    app.listen(port, () => {
+        console.log(`Tu app esta lista por http://localhost:${port}`);
+    });
+}
+
 
 
 (ENGINE_DB === 'nosql') ? dbConnectNoSQL() : dbConnectMysql();
+
+module.exports = app;
