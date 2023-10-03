@@ -1,11 +1,21 @@
 require("dotenv").config();
+
 const express = require('express');
 const cors = require('cors');
 
+// ** Swagger Docs
+const swaggerUI = require('swagger-ui-express');
+const { openApiConfiguration } = require('./docs/swagger');
+
+// ** Monitoreo Errors Slack
 const morganBody = require('morgan-body');
-const { loggerStream } = require('./src/utils/monitoreo-slack/handleLooger')
+const { loggerStream } = require('./src/utils/monitoreo-slack/handleLooger');
+
+// ** DB connections
 const dbConnectNoSQL = require('./src/config/mongo');
 const { dbConnectMysql } = require('./src/config/mysql')
+
+
 const app = express();
 const ENGINE_DB = process.env.ENGINE_DB;
 
@@ -23,8 +33,13 @@ morganBody(app, {
         return res.statusCode < 400
     }
 })
-const port = 8080;
+//const port = 8080;
+const port = process.env.PORT || 3000;
+/**
+ * Definir ruta de documentacion
+*/
 
+app.use('/documentation', swaggerUI.serve, swaggerUI.setup(openApiConfiguration))
 app.use("/api", require("./src/routes"))
 
 app.listen(port, () => {

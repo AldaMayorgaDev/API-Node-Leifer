@@ -1,5 +1,5 @@
 //models
-const { usersModel } = require('../models/');
+const { usersModel } = require('../models');
 
 //Validators
 const { matchedData } = require('express-validator');
@@ -23,7 +23,7 @@ const registerController = async (req, res) => {
                 dataUser.set('password', undefined, { strict: false });
 
 
-
+                res.status(201)
                 const data = {
                         token: await tokenSign(dataUser),
                         user: dataUser,

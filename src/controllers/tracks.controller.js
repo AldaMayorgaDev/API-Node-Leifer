@@ -14,13 +14,14 @@ const { handleHttpError } = require('../utils/handleError');
 */
 const getItems = async (req, res) => {
     try {
-        const user = req.user
+        //const user = req.user;
         const data = await tracksModel.findAllData({});
         res.send({
             data: data,
-            user: user,
+            //user: user,
         });
     } catch (error) {
+        console.log('tu error', error)
         handleHttpError(res, 'ERROR_GET_ITEMS', 403)
     }
 };
@@ -40,7 +41,7 @@ const getItem = async (req, res) => {
         });
 
     } catch (error) {
-        console.log(error)
+        console.log('tu error', error)
         handleHttpError(res, 'ERROR_GET_ITEM', 404)
     }
 };
